@@ -6,15 +6,11 @@ prefix=/usr/local
 ## This script
 ### To build and install a Debian compatible package
 sudo apt -y install checkinstall
+### Command line tool for transferring data with URLs
+sudo apt -y install curl
 
-### Vim
+## Vim
 sudo apt -y build-dep vim
-
-################################################################
-# Create directories
-################################################################
-## Directory to store .desktop files
-sudo mkdir -p /usr/local/share/applications
 
 ################################################################
 # Clone respository
@@ -22,13 +18,7 @@ sudo mkdir -p /usr/local/share/applications
 git clone https://github.com/vim/vim.git ~/vimfiles/repo
 
 ################################################################
-# Get Python 3 configuration
-################################################################
-python3_version=$(python3 --version | sed 's/[^0-9]*\([0-9]*\.[0-9]*\).*/\1/')
-python3_config_dir="/usr/lib/python${python3_version}/config-${python3_version}m-x86_64-linux-gnu"
-
-################################################################
-# Build
+# Build and install
 ################################################################
 pushd ~/vimfiles/repo
 
@@ -39,15 +29,14 @@ vim_short_version=$(echo ${vim_version} | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1\2/
 ./configure \
     --enable-multibyte \
     --enable-python3interp=yes \
-    --with-python3-config-dir=${python3_config_dir} \
     --enable-gui=gtk3 \
     --prefix=${prefix}
 
 make -j$(nproc) VIMRUNTIMEDIR=${prefix}/share/vim/vim${vim_short_version}
 
-################################################################
-# Install
-################################################################
+## Directory to store .desktop files
+sudo mkdir -p /usr/local/share/applications
+
 sudo checkinstall --default --pkgname vim-git --pkgversion "${vim_version}" --maintainer "Caro Meysmans" --provides vim
 
 popd
