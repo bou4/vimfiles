@@ -16,9 +16,9 @@ call plug#end()
 " General settings
 " --------------------------------------------------------------
 
-"" Colorscheme 
-" Load colorscheme dracula
-colorscheme dracula
+"" Color scheme
+" Load color scheme dracula custom
+colorscheme dracula_custom
 
 "" Terminal options
 " Use 24-bit color in terminal
@@ -40,7 +40,7 @@ if has('gui_running')
 endif
 
 "" Line numbers
-" Show the line number in front of the line with the cursor 
+" Show the line number in front of the line with the cursor
 set number
 " Minimal number of columns to use for the line number
 set numberwidth=6
@@ -80,7 +80,7 @@ set statusline+=%=
 " Percentage through file
 set statusline+=%(\ %p%%%)
 " Current line and current column
-set statusline+=%(\ %l:%c%) 
+set statusline+=%(\ %l:%c%)
 
 "" Tabline
 " Always show tabline
@@ -100,7 +100,9 @@ set sidescrolloff=5
 " Do not wrap lines
 set nowrap
 " Show special characters
-set listchars=eol:¬,tab:▸\ ,trail:·,precedes:←,extends:→
+set listchars=tab:<·>,trail:·,precedes:<,extends:>
+" List mode
+set list
 " Command line completion operates in an enhanced mode
 set wildmenu
 
