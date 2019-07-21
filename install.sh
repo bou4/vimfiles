@@ -46,8 +46,12 @@ popd
 ################################################################
 sudo update-alternatives --install /usr/bin/editor editor ${prefix}/bin/vim 1
 sudo update-alternatives --set editor ${prefix}/bin/vim
+
 sudo update-alternatives --install /usr/bin/vi vi ${prefix}/bin/vim 1
 sudo update-alternatives --set vi ${prefix}/bin/vim
+
+sudo update-alternatives --install /usr/bin/gvim gvim ${prefix}/bin/gvim 1
+sudo update-alternatives --set gvim ${prefix}/bin/gvim
 
 ################################################################
 # Configure
