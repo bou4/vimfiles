@@ -4,11 +4,13 @@
 call plug#begin()
 
 " A dark theme
-Plug 'dracula/vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 " A tree explorer plugin
 Plug 'scrooloose/nerdtree'
 " A Git wrapper
 Plug 'tpope/vim-fugitive'
+" A plugin of NERDTree showing Git status
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
@@ -17,8 +19,8 @@ call plug#end()
 " --------------------------------------------------------------
 
 "" Color scheme
-" Load color scheme dracula custom
-colorscheme dracula_custom
+" Load color scheme dracula
+colorscheme dracula
 
 "" Terminal options
 " Use 24-bit color in terminal
@@ -74,7 +76,7 @@ set statusline+=%(\ %m%)
 " Readonly flag
 set statusline+=%(\ %r%)
 " Current Git branch
-set statusline+=%(\ (%{fugitive#head()})%)
+set statusline+=%(\ %{fugitive#statusline()}%)
 " Right align
 set statusline+=%=
 " Percentage through file
@@ -85,6 +87,10 @@ set statusline+=%(\ %l:%c%)
 "" Tabline
 " Always show tabline
 set showtabline=2
+
+"" Command line
+" Number of screen lines to use for the command line
+set cmdheight=2
 
 "" Other
 " Allow backspacing over autoindent, line breaks and the start of insert
@@ -100,9 +106,7 @@ set sidescrolloff=5
 " Do not wrap lines
 set nowrap
 " Show special characters
-set listchars=tab:<·>,trail:·,precedes:<,extends:>
-" List mode
-set list
+set listchars=eol:¶,tab:→\ ,space:·,precedes:<,extends:>
 " Command line completion operates in an enhanced mode
 set wildmenu
 
@@ -116,9 +120,33 @@ let g:NERDTreeMinimalUI=1
 " Define the value for 'statusline' in NERDTree windows
 let g:NERDTreeStatusline='[NERDTree]'
 
+"" NERDTree Git plugin
+let g:NERDTreeIndicatorMapCustom = {
+            \ 'Modified'  : 'M',
+            \ 'Staged'    : 'S',
+            \ 'Untracked' : 'Unt',
+            \ 'Renamed'   : 'R',
+            \ 'Unmerged'  : 'Unm',
+            \ 'Deleted'   : 'De',
+            \ 'Dirty'     : 'Di',
+            \ 'Clean'     : 'C',
+            \ 'Ignored'   : 'I',
+            \ 'Unknown'   : 'Unk'
+            \ }
+
 " --------------------------------------------------------------
 " Mappings
 " --------------------------------------------------------------
+
+"" Leader
+let mapleader=' '
+
+"" Toggle list mode
+nnoremap <silent> <leader>l :set list!<CR>
+"" Toggle NERDTree
+nnoremap <silent> <leader>e :NERDTreeToggle<CR>
+"" Open terminal 
+nnoremap <silent> <leader>t :terminal<CR>
 
 "" Window movement
 nnoremap <silent> <C-h> :call window_move#window_move('h')<CR>
