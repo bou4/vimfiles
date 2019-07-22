@@ -3,12 +3,30 @@
 " --------------------------------------------------------------
 call plug#begin()
 
+" The ultimate snippet solution
+Plug 'SirVer/ultisnips'
+
+" Default snippets
+Plug 'honza/vim-snippets'
+
 " A dark theme
 Plug 'dracula/vim', { 'as': 'dracula' }
+
 " A tree explorer plugin
 Plug 'scrooloose/nerdtree'
+
 " A Git wrapper
 Plug 'tpope/vim-fugitive'
+
+" Normalize asynchronous job control API
+Plug 'prabirshrestha/async.vim'
+" Asynchronous Language Server Protocol plugin
+Plug 'prabirshrestha/vim-lsp'
+
+" Language Server Protocol snippets using vim-lsp and UltiSnips
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+" Language Server Protocol snippets using vim-lsp
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 
 call plug#end()
 
@@ -126,6 +144,12 @@ set cursorline
 " Plugin settings
 " --------------------------------------------------------------
 
+"" UltiSnips
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsEditSplit = 'vertical'
+
 "" NERDTree
 " Disable the 'Bookmarks' label 'Press ? for help' text
 let g:NERDTreeMinimalUI=1
@@ -133,6 +157,7 @@ let g:NERDTreeMinimalUI=1
 let g:NERDTreeQuitOnOpen=1
 " Define the value for 'statusline' in NERDTree windows
 let g:NERDTreeStatusline='[NERDTree]'
+
 
 " --------------------------------------------------------------
 " Mappings
@@ -159,12 +184,36 @@ nnoremap <silent> <C-l> :call window_move#window_move('l')<CR>
 " --------------------------------------------------------------
 
 "" NERDTree
-augroup NERDTree
+augroup nerdtree
     autocmd!
     " Activate NERDTree when Vim starts up if no files were specified
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
     " Close Vim if the only window left open is NERDTree
     autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | quit | endif
+augroup end
+
+"" Language Server Protocol
+augroup register_lsp_server
+    autocmd!
+
+    " sudo apt install clang-tools-7
+    " sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-7 100
+    if executable('clangd')
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'clangd',
+                    \ 'cmd': {server_info->['clangd']},
+                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+                    \ })
+    endif
+
+    " sudo pip install python-language-server[all]
+    if executable('pyls')
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'pyls',
+                    \ 'cmd': {server_info->['pyls']},
+                    \ 'whitelist': ['python'],
+                    \ })
+    endif
 augroup end
 
