@@ -1,3 +1,6 @@
 /autoload/plug.vim
+/backup/
 /plugged/
 /repo/
+/swap/
+/undo/

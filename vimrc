@@ -9,14 +9,24 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'scrooloose/nerdtree'
 " A Git wrapper
 Plug 'tpope/vim-fugitive'
-" A plugin of NERDTree showing Git status
-Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
 " --------------------------------------------------------------
 " General settings
 " --------------------------------------------------------------
+
+"" Temporary directories
+if !exists('s:myruntime')
+    let s:myruntime = split(&runtimepath, ',')[0]
+end
+
+" List of directories for the backup file
+let &backupdir=s:myruntime . '/backup//'
+" List of directories for the swap file
+let &directory=s:myruntime . '/swap//'
+" List of directories for the undo file
+let &undodir=s:myruntime . '/undo//'
 
 "" Color scheme
 " Load color scheme dracula
@@ -29,7 +39,7 @@ set termguicolors
 "" GUI options
 if has('gui_running')
     " List of fonts which will be used for the GUI version of Vim
-    set guifont=Monospace\ 11
+    set guifont=Monospace\ 12
 
     " No menubar
     set guioptions-=m
@@ -109,6 +119,8 @@ set nowrap
 set listchars=eol:¶,tab:→\ ,space:·,precedes:<,extends:>
 " Command line completion operates in an enhanced mode
 set wildmenu
+" Highlight the screen line of the cursor
+set cursorline
 
 " --------------------------------------------------------------
 " Plugin settings
@@ -117,22 +129,10 @@ set wildmenu
 "" NERDTree
 " Disable the 'Bookmarks' label 'Press ? for help' text
 let g:NERDTreeMinimalUI=1
+" Close NERDTree after opening a file
+let g:NERDTreeQuitOnOpen=1
 " Define the value for 'statusline' in NERDTree windows
 let g:NERDTreeStatusline='[NERDTree]'
-
-"" NERDTree Git plugin
-let g:NERDTreeIndicatorMapCustom = {
-            \ 'Modified'  : 'M',
-            \ 'Staged'    : 'S',
-            \ 'Untracked' : 'Unt',
-            \ 'Renamed'   : 'R',
-            \ 'Unmerged'  : 'Unm',
-            \ 'Deleted'   : 'De',
-            \ 'Dirty'     : 'Di',
-            \ 'Clean'     : 'C',
-            \ 'Ignored'   : 'I',
-            \ 'Unknown'   : 'Unk'
-            \ }
 
 " --------------------------------------------------------------
 " Mappings
@@ -141,12 +141,12 @@ let g:NERDTreeIndicatorMapCustom = {
 "" Leader
 let mapleader=' '
 
-"" Toggle list mode
-nnoremap <silent> <leader>l :set list!<CR>
-"" Toggle NERDTree
-nnoremap <silent> <leader>e :NERDTreeToggle<CR>
 "" Open terminal 
 nnoremap <silent> <leader>t :terminal<CR>
+"" Toggle NERDTree
+nnoremap <silent> <leader>e :NERDTreeToggle<CR>
+"" Toggle list mode
+nnoremap <silent> <leader>l :set list!<CR>
 
 "" Window movement
 nnoremap <silent> <C-h> :call window_move#window_move('h')<CR>
@@ -159,9 +159,12 @@ nnoremap <silent> <C-l> :call window_move#window_move('l')<CR>
 " --------------------------------------------------------------
 
 "" NERDTree
-" Activate NERDTree when Vim starts up
-augroup VimStartup
+augroup NERDTree
     autocmd!
-    autocmd VimEnter * NERDTree
+    " Activate NERDTree when Vim starts up if no files were specified
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    " Close Vim if the only window left open is NERDTree
+    autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | quit | endif
 augroup end
 
