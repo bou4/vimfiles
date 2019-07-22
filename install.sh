@@ -1,8 +1,8 @@
 prefix=/usr/local
 
-################################################################
+# --------------------------------------------------------------
 # Install dependencies
-################################################################
+# --------------------------------------------------------------
 ## This script
 ### To build and install a Debian compatible package
 sudo apt -y install checkinstall
@@ -12,14 +12,23 @@ sudo apt -y install curl
 ## Vim
 sudo apt -y build-dep vim
 
-################################################################
+## Vim plugins
+### C/C++ language server
+sudo apt -y install clang-tools-7
+
+sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-7 1
+
+### Python language server
+pip3 install python-language-server[all]
+
+# --------------------------------------------------------------
 # Clone respository
-################################################################
+# --------------------------------------------------------------
 git clone https://github.com/vim/vim.git ~/vimfiles/repo
 
-################################################################
+# --------------------------------------------------------------
 # Build and install
-################################################################
+# --------------------------------------------------------------
 pushd ~/vimfiles/repo
 
 git_tag=$(git describe --abbrev=0 --tags) # e.g. v8.1.1662
@@ -41,9 +50,9 @@ sudo checkinstall --default --pkgname vim-git --pkgversion "${vim_version}" --ma
 
 popd
 
-################################################################
+# --------------------------------------------------------------
 # Update alternatives
-################################################################
+# --------------------------------------------------------------
 sudo update-alternatives --install /usr/bin/editor editor ${prefix}/bin/vim 1
 sudo update-alternatives --set editor ${prefix}/bin/vim
 
@@ -53,9 +62,9 @@ sudo update-alternatives --set vi ${prefix}/bin/vim
 sudo update-alternatives --install /usr/bin/gvim gvim ${prefix}/bin/gvim 1
 sudo update-alternatives --set gvim ${prefix}/bin/gvim
 
-################################################################
+# --------------------------------------------------------------
 # Configure
-################################################################
+# --------------------------------------------------------------
 ln -sfn "$(pwd)" ~/.vim
 
 mkdir ~/.vim/backup

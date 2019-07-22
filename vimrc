@@ -158,7 +158,6 @@ let g:NERDTreeQuitOnOpen=1
 " Define the value for 'statusline' in NERDTree windows
 let g:NERDTreeStatusline='[NERDTree]'
 
-
 " --------------------------------------------------------------
 " Mappings
 " --------------------------------------------------------------
@@ -198,7 +197,7 @@ augroup register_lsp_server
     autocmd!
 
     " sudo apt install clang-tools-7
-    " sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-7 100
+    " sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-7 1
     if executable('clangd')
         autocmd User lsp_setup call lsp#register_server({
                     \ 'name': 'clangd',
