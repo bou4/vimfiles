@@ -58,6 +58,10 @@ sudo update-alternatives --set gvim ${prefix}/bin/gvim
 ################################################################
 ln -sfn "$(pwd)" ~/.vim
 
+mkdir ~/.vim/backup
+mkdir ~/.vim/swap
+mkdir ~/.vim/undo
+
 curl -fLsSo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
