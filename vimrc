@@ -59,14 +59,8 @@ if has('gui_running')
     " List of fonts which will be used for the GUI version of Vim
     set guifont=Monospace\ 12
 
-    " No menubar
-    set guioptions-=m
-    " No toolbar
-    set guioptions-=T
-    " No right-hand scrollbar
-    set guioptions-=r
-    " No left-hand scrollbar when there is a vertically split window
-    set guioptions-=L
+    " Disable all GUI options
+    set guioptions=
 endif
 
 "" Line numbers
@@ -107,6 +101,8 @@ set statusline+=%(\ %r%)
 set statusline+=%(\ %{fugitive#statusline()}%)
 " Right align
 set statusline+=%=
+" Trailing space
+set statusline+=%(\ %{statusline#trailing_space()}%)
 " Percentage through file
 set statusline+=%(\ %p%%%)
 " Current line and current column
@@ -145,10 +141,9 @@ set cursorline
 " --------------------------------------------------------------
 
 "" UltiSnips
-let g:UltiSnipsExpandTrigger = '<tab>'
+" Keys used to trigger UltiSnips actions
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-let g:UltiSnipsEditSplit = 'vertical'
 
 "" NERDTree
 " Disable the 'Bookmarks' label 'Press ? for help' text
@@ -165,7 +160,7 @@ let g:NERDTreeStatusline='[NERDTree]'
 "" Leader
 let mapleader=' '
 
-"" Open terminal 
+"" Open terminal
 nnoremap <silent> <leader>t :terminal<CR>
 "" Toggle NERDTree
 nnoremap <silent> <leader>e :NERDTreeToggle<CR>
@@ -185,9 +180,11 @@ nnoremap <silent> <C-l> :call window_move#window_move('l')<CR>
 "" NERDTree
 augroup nerdtree
     autocmd!
+
     " Activate NERDTree when Vim starts up if no files were specified
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
     " Close Vim if the only window left open is NERDTree
     autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | quit | endif
 augroup end
@@ -214,5 +211,13 @@ augroup register_lsp_server
                     \ 'whitelist': ['python'],
                     \ })
     endif
+augroup end
+
+"" Statusline
+augroup refresh_statusline
+    autocmd!
+
+    " Recalculate the trailing whitespace warning when idle, and after saving
+    autocmd CursorHold,BufWritePost * unlet! b:statusline_trailing_space_warning
 augroup end
 
