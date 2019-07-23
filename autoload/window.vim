@@ -1,8 +1,4 @@
-" Window movement
-" Source:
-" http://www.agillo.net/simple-vim-window-management/
-" https://aonemd.github.io/blog/handy-keymaps-in-vim
-function! window_move#window_move(key) abort
+function! window#move(key) abort
     " Save old window
     let l:current_window = winnr()
 

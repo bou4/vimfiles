@@ -50,11 +50,11 @@ let &undodir=s:myruntime . '/undo//'
 " Load color scheme dracula
 colorscheme dracula
 
-"" Terminal options
+"" Terminal
 " Use 24-bit color in terminal
 set termguicolors
 
-"" GUI options
+"" GUI
 if has('gui_running')
     " List of fonts which will be used for the GUI version of Vim
     set guifont=Monospace\ 12
@@ -99,10 +99,10 @@ set statusline+=%(\ %m%)
 set statusline+=%(\ %r%)
 " Current Git branch
 set statusline+=%(\ %{fugitive#statusline()}%)
+" Trailing space flag
+set statusline+=%(\ %{statusline#trailing_space()}%)
 " Right align
 set statusline+=%=
-" Trailing space
-set statusline+=%(\ %{statusline#trailing_space()}%)
 " Percentage through file
 set statusline+=%(\ %p%%%)
 " Current line and current column
@@ -170,10 +170,10 @@ nnoremap <silent> <leader>e :NERDTreeToggle<CR>
 nnoremap <silent> <leader>l :set list!<CR>
 
 "" Window movement
-nnoremap <silent> <C-h> :call window_move#window_move('h')<CR>
-nnoremap <silent> <C-j> :call window_move#window_move('j')<CR>
-nnoremap <silent> <C-k> :call window_move#window_move('k')<CR>
-nnoremap <silent> <C-l> :call window_move#window_move('l')<CR>
+nnoremap <silent> <C-h> :call window#move('h')<CR>
+nnoremap <silent> <C-j> :call window#move('j')<CR>
+nnoremap <silent> <C-k> :call window#move('k')<CR>
+nnoremap <silent> <C-l> :call window#move('l')<CR>
 
 " --------------------------------------------------------------
 " Autocommands
@@ -185,6 +185,7 @@ augroup nerdtree
 
     " Activate NERDTree when Vim starts up if no files were specified
     autocmd StdinReadPre * let s:std_in=1
+
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
     " Close Vim if the only window left open is NERDTree
