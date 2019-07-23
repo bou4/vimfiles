@@ -160,6 +160,8 @@ let g:NERDTreeStatusline='[NERDTree]'
 "" Leader
 let mapleader=' '
 
+"" Edit configuration
+nnoremap <silent> <leader>v :call configuration#edit()<CR>
 "" Open terminal
 nnoremap <silent> <leader>t :terminal<CR>
 "" Toggle NERDTree
