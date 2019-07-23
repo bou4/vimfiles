@@ -159,17 +159,23 @@ let g:NERDTreeStatusline='[NERDTree]'
 
 "" Leader
 let mapleader=' '
+"" Local leader
+let maplocalleader='\'
 
-"" Edit configuration
+"" Configuration
+" Edit configuration
 nnoremap <silent> <leader>v :call configuration#edit()<CR>
+
+"" NERDTree
+" Toggle NERDTree
+nnoremap <silent> <leader>e :NERDTreeToggle<CR>
+
 "" Open terminal
 nnoremap <silent> <leader>t :terminal<CR>
-"" Toggle NERDTree
-nnoremap <silent> <leader>e :NERDTreeToggle<CR>
 "" Toggle list mode
 nnoremap <silent> <leader>l :set list!<CR>
 
-"" Window movement
+"" Window
 nnoremap <silent> <C-h> :call window#move('h')<CR>
 nnoremap <silent> <C-j> :call window#move('j')<CR>
 nnoremap <silent> <C-k> :call window#move('k')<CR>
@@ -180,7 +186,7 @@ nnoremap <silent> <C-l> :call window#move('l')<CR>
 " --------------------------------------------------------------
 
 "" NERDTree
-augroup nerdtree
+augroup nerdtree_configure
     autocmd!
 
     " Activate NERDTree when Vim starts up if no files were specified
@@ -192,8 +198,8 @@ augroup nerdtree
     autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | quit | endif
 augroup end
 
-"" Language Server Protocol
-augroup register_lsp_server
+"" vim-lsp
+augroup lsp_server_register
     autocmd!
 
     " sudo apt install clang-tools-7
@@ -217,7 +223,7 @@ augroup register_lsp_server
 augroup end
 
 "" Statusline
-augroup refresh_statusline
+augroup statusline_refresh
     autocmd!
 
     " Recalculate the trailing whitespace warning when idle, and after saving
