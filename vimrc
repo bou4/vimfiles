@@ -47,8 +47,8 @@ let &directory=s:myruntime . '/swap//'
 let &undodir=s:myruntime . '/undo//'
 
 "" Color scheme
-" Load color scheme dracula
-colorscheme dracula
+" Load color scheme Dracula custom
+colorscheme dracula_custom
 
 "" Terminal
 " Use 24-bit color in terminal
@@ -66,8 +66,6 @@ endif
 "" Line numbers
 " Show the line number in front of the line with the cursor
 set number
-" Minimal number of columns to use for the line number
-set numberwidth=6
 " Show the line number relative to the line with the cursor in front of each line
 set relativenumber
 
@@ -104,13 +102,17 @@ set statusline+=%(\ %{statusline#trailing_space()}%)
 " Right align
 set statusline+=%=
 " Percentage through file
-set statusline+=%(\ %p%%%)
+set statusline+=%8(\ %p%%%)
 " Current line and current column
-set statusline+=%(\ %l:%c%)
+set statusline+=%8(\ %l:%c%)
 
 "" Tabline
 " Always show tabline
 set showtabline=2
+
+"" Sign column
+" Always show sign column
+set signcolumn=yes
 
 "" Command line
 " Number of screen lines to use for the command line
@@ -130,11 +132,11 @@ set sidescrolloff=5
 " Do not wrap lines
 set nowrap
 " Show special characters
-set listchars=eol:¶,tab:→\ ,space:·,precedes:<,extends:>
+set listchars=eol:¶,tab:→\ ,space:·,precedes:<,extends:>,
+" Characters to fill the statuslines and vertical separators
+set fillchars=vert:\ ,
 " Command line completion operates in an enhanced mode
 set wildmenu
-" Highlight the screen line of the cursor
-set cursorline
 
 " --------------------------------------------------------------
 " Plugin settings
@@ -146,11 +148,13 @@ let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 "" NERDTree
+" Do not highlight the current cursor line
+let g:NERDTreeHighlightCursorline=0
 " Disable the 'Bookmarks' label 'Press ? for help' text
 let g:NERDTreeMinimalUI=1
 " Close NERDTree after opening a file
 let g:NERDTreeQuitOnOpen=1
-" Define the value for 'statusline' in NERDTree windows
+" Define the value for 'statusline'
 let g:NERDTreeStatusline='[NERDTree]'
 
 " --------------------------------------------------------------

@@ -19,7 +19,7 @@ sudo apt -y install clang-tools-7
 sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-7 1
 
 ### Python language server
-pip3 install python-language-server[all]
+sudo pip3 install python-language-server[all]
 
 # --------------------------------------------------------------
 # Clone respository
