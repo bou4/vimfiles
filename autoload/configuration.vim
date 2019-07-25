@@ -2,15 +2,15 @@ function! configuration#edit() abort
     " If we are not editing the configuration
     if (expand('%:p') != $MYVIMRC)
         " Edit configuration
-        execute ':edit ' . $MYVIMRC
+        edit $MYVIMRC
     " If we are editing the configuration
     else
         " Save configuration
-        execute ':write'
+        write
         " Load configuration
-        execute ':source ' . $MYVIMRC
+        source $MYVIMRC
         " Delete buffer
-        execute ':bdelete'
+        bdelete
     endif
 endfunction
 

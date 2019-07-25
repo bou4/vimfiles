@@ -40,11 +40,11 @@ if !exists('s:myruntime')
 end
 
 " List of directories for the backup file
-let &backupdir=s:myruntime . '/backup//'
+let &backupdir = s:myruntime . '/backup//'
 " List of directories for the swap file
-let &directory=s:myruntime . '/swap//'
+let &directory = s:myruntime . '/swap//'
 " List of directories for the undo file
-let &undodir=s:myruntime . '/undo//'
+let &undodir = s:myruntime . '/undo//'
 
 "" Color scheme
 " Load color scheme Dracula custom
@@ -114,10 +114,6 @@ set showtabline=2
 " Always show sign column
 set signcolumn=yes
 
-"" Command line
-" Number of screen lines to use for the command line
-set cmdheight=2
-
 "" Other
 " Allow backspacing over autoindent, line breaks and the start of insert
 set backspace=indent,eol,start
@@ -149,22 +145,22 @@ let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 "" NERDTree
 " Do not highlight the current cursor line
-let g:NERDTreeHighlightCursorline=0
+let g:NERDTreeHighlightCursorline = 0
 " Disable the 'Bookmarks' label 'Press ? for help' text
-let g:NERDTreeMinimalUI=1
+let g:NERDTreeMinimalUI = 1
 " Close NERDTree after opening a file
-let g:NERDTreeQuitOnOpen=1
+let g:NERDTreeQuitOnOpen = 1
 " Define the value for 'statusline'
-let g:NERDTreeStatusline='[NERDTree]'
+let g:NERDTreeStatusline = '[NERDTree]'
 
 " --------------------------------------------------------------
 " Mappings
 " --------------------------------------------------------------
 
 "" Leader
-let mapleader=' '
+let mapleader = ' '
 "" Local leader
-let maplocalleader='\'
+let maplocalleader = '\'
 
 "" Configuration
 " Edit configuration
@@ -188,19 +184,6 @@ nnoremap <silent> <C-l> :call window#move('l')<CR>
 " --------------------------------------------------------------
 " Autocommands
 " --------------------------------------------------------------
-
-"" NERDTree
-augroup nerdtree_configure
-    autocmd!
-
-    " Activate NERDTree when Vim starts up if no files were specified
-    autocmd StdinReadPre * let s:std_in=1
-
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-    " Close Vim if the only window left open is NERDTree
-    autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | quit | endif
-augroup end
 
 "" vim-lsp
 augroup lsp_server_register
